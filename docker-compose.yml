@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  proxy:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    command: [ nginx-debug, '-g', 'daemon off;' ]
+
+  nest:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    environment:
+      - DATABASE_HOST=database
+      - REDIS_MASTER_HOST=redis-master
+      - REDIS_MASTER_PORT=6379
+      - REDIS_SLAVE_HOST=redis-slave
+      - REDIS_SLAVE_PORT=6379
+    volumes:
+      - ./src:/app/src
+      - ./libs:/app/libs
+
+  redis-master:
+    image: elisha1994/redis-master
+    restart: always
+
+  redis-slave:
+    image: elisha1994/redis-slave
+    restart: always
+
+  database:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=nest
+      - MYSQL_ROOT_PASSWORD=test
+    command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    cap_add:
+      - SYS_NICE
+    volumes:
+      - ./database/nest:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: test
