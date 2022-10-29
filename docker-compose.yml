@@ -26,11 +26,22 @@ services:
       - ./libs:/app/libs
 
   redis-master:
-    image: elisha1994/redis-master
+    image: redis:latest
+    hostname: redis-master
+    volumes:
+      - redis_master:/data
+    ports:
+      - '6379:6379'
     restart: always
 
   redis-slave:
-    image: elisha1994/redis-slave
+    image: redis:latest
+    hostname: redis-slave
+    volumes:
+      - redis_slave:/data
+    ports:
+      - '6479:6479'
+    command: redis-server --slaveof redis-master 6379
     restart: always
 
   database:
@@ -56,3 +67,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: root
       RABBITMQ_DEFAULT_PASS: test
+
+volumes:
+  redis_master:
+  redis_slave:
