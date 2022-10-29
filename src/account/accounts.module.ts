@@ -3,7 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { AccountRepositoryImplement } from './infrastructure/repository/account.repository';
 import { IntegrationEventPublisherImplement } from './infrastructure/message/integration-event.publisher';
-import { EventStoreImplement } from "./infrastructure/cache/event-store";
+import { EventStoreImplement } from './infrastructure/cache/event-store';
 
 import { CloseAccountHandler } from 'src/account/application/command/close-account.handler';
 import { DepositHandler } from 'src/account/application/command/deposit.handler';
@@ -20,6 +20,8 @@ import { WithdrawnHandler } from 'src/account/application/event/withdrawn.handle
 import { AccountService } from 'src/account/domain/service';
 import { AccountFactory } from 'src/account/domain/factory';
 import { InjectionToken } from './application/injection.token';
+import { AccountsController } from './interface/accounts.controller';
+import { AccountQueryImplement } from './infrastructure/query/account.query';
 
 const infrastructure: Provider[] = [
   {
@@ -33,6 +35,10 @@ const infrastructure: Provider[] = [
   {
     provide: InjectionToken.EVENT_STORE,
     useClass: EventStoreImplement,
+  },
+  {
+    provide: InjectionToken.ACCOUNT_QUERY,
+    useClass: AccountQueryImplement,
   },
 ];
 
@@ -54,6 +60,7 @@ const application = [
 
 @Module({
   imports: [CqrsModule],
+  controllers: [AccountsController],
   providers: [Logger, ...infrastructure, ...application, ...domain],
 })
 export class AccountsModule {}
