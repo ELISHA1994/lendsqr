@@ -1,7 +1,7 @@
 import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Connection, createConnection } from 'typeorm';
 
-// import { AccountEntity } from 'src/account/infrastructure/entity/account.entity';
+import { AccountEntity } from 'src/account/infrastructure/entity/account.entity';
 
 class DBConfig {
   readonly host: string;
@@ -66,7 +66,7 @@ export class AppService implements OnModuleInit, OnModuleDestroy {
   }
 
   async onModuleInit(): Promise<void> {
-    const entities = [];
+    const entities = [AccountEntity];
 
     this.databaseConnection = await createConnection({
       ...this.loadDBConfig(),
