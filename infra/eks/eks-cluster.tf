@@ -19,7 +19,7 @@ provider "kubernetes" {
 
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
-  version = "18.26.6"
+  version = "~> 18.0"
 
   cluster_name    = local.cluster_name
   cluster_version = "1.22"
@@ -74,18 +74,16 @@ module "eks" {
     }
   }
 
-  write_kubeconfig = true
-  config_output_path = "./"
 }
 
-## Get Bucket
-data "aws_s3_bucket" "get_bucket" {
-  bucket = "terraform-state-devops-lendsqr"
-}
-
-## S3 Bucket Object Upload
-resource "aws_s3_object" "object" {
-  bucket = data.aws_s3_bucket.get_bucket.id
-  key    = module.eks.kubeconfig_filename
-  source = "./${module.eks.kubeconfig_filename}"
-}
+### Get Bucket
+#data "aws_s3_bucket" "get_bucket" {
+#  bucket = "terraform-state-devops-lendsqr"
+#}
+#
+### S3 Bucket Object Upload
+#resource "aws_s3_object" "object" {
+#  bucket = data.aws_s3_bucket.get_bucket.id
+#  key    = module.eks.kubeconfig_filename
+#  source = "./${module.eks.kubeconfig_filename}"
+#}
