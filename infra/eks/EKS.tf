@@ -77,7 +77,7 @@ module "eks" {
 
 ## Get Bucket
 data "aws_s3_bucket" "get_bucket" {
-  bucket = "demo-bucket"
+  bucket = "terraform-state-devops-lendsqr"
 }
 
 ## S3 Bucket Object Upload
