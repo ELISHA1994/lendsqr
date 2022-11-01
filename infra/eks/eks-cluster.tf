@@ -73,6 +73,9 @@ module "eks" {
       ]
     }
   }
+
+  write_kubeconfig = true
+  config_output_path = "./"
 }
 
 ## Get Bucket
