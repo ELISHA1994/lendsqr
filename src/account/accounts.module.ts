@@ -22,6 +22,8 @@ import { AccountFactory } from 'src/account/domain/factory';
 import { InjectionToken } from './application/injection.token';
 import { AccountsController } from './interface/accounts.controller';
 import { AccountQueryImplement } from './infrastructure/query/account.query';
+import { FindAccountByIdHandler } from './application/query/find-account-by-id.handler';
+import { FindAccountsHandler } from './application/query/find-accounts.handler';
 
 const infrastructure: Provider[] = [
   {
@@ -56,6 +58,8 @@ const application = [
   DepositedHandler,
   PasswordUpdatedHandler,
   WithdrawnHandler,
+  FindAccountByIdHandler,
+  FindAccountsHandler,
 ];
 
 @Module({

@@ -216,8 +216,8 @@ If you want see all container in deployment, you can use kubectl.
 
 ```bash
   kubectl get all # print all kubernetes default namespace
-  kubectl logs deployment.apps/lendsqr --all-containers=true
-  kubectl logs deployment.apps/lendsqr --all-containers=true -f
+  kubectl logs infra.apps/lendsqr --all-containers=true
+  kubectl logs infra.apps/lendsqr --all-containers=true -f
 ```
 
 About kubernetes: [https://kubernetes.io/](https://kubernetes.io/)
@@ -279,8 +279,8 @@ Start this api and connect http://localhost:5000/api in your browser.
   kubectl delete -f manifest.yaml # delete kubernetes resource using manifest.yaml file
 
   kubectl get all # print all kubernetes default namespace
-  kubectl logs deployment.apps/lendsqr --all-containers=true
-  kubectl logs deployment.apps/lendsqr --all-containers=true -f
+  kubectl logs infra.apps/lendsqr --all-containers=true
+  kubectl logs infra.apps/lendsqr --all-containers=true -f
 
   helm install --name <releasename> helm # create helm chart
   helm delete --purge <releasename> # delete helm chart
